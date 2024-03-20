@@ -1307,102 +1307,102 @@ $document.ready(function () {
    * Slick carousel
    * @description  Enable Slick carousel plugin
    */
-  if (plugins.slick.length) {
-    var i;
-    for (i = 0; i < plugins.slick.length; i++) {
-      var $slickItem = $(plugins.slick[i]);
+  // if (plugins.slick.length) {
+  //   var i;
+  //   for (i = 0; i < plugins.slick.length; i++) {
+  //     var $slickItem = $(plugins.slick[i]);
 
-      $slickItem.slick({
-        slidesToScroll: parseInt($slickItem.attr('data-slide-to-scroll')) || 1,
-        asNavFor: $slickItem.attr('data-for') || false,
-        dots: $slickItem.attr("data-dots") == "true",
-        infinite: $slickItem.attr("data-loop") == "true",
-        focusOnSelect: true,
-        arrows: $slickItem.attr("data-arrows") == "true",
-        swipe: $slickItem.attr("data-swipe") == "true",
-        autoplay: $slickItem.attr("data-autoplay") == "true",
-        vertical: $slickItem.attr("data-vertical") == "true",
-        centerMode: $slickItem.attr("data-center-mode") == "true",
-        centerPadding: $slickItem.attr("data-center-padding") ? $slickItem.attr("data-center-padding") : '0.50',
-        mobileFirst: true,
-        responsive: [
-          {
-            breakpoint: 0,
-            settings: {
-              slidesToShow: parseInt($slickItem.attr('data-items')) || 1,
-            }
-          },
-          {
-            breakpoint: 479,
-            settings: {
-              slidesToShow: parseInt($slickItem.attr('data-xs-items')) || 1,
-            }
-          },
-          {
-            breakpoint: 767,
-            settings: {
-              slidesToShow: parseInt($slickItem.attr('data-sm-items')) || 1,
-            }
-          },
-          {
-            breakpoint: 991,
-            settings: {
-              slidesToShow: parseInt($slickItem.attr('data-md-items')) || 1,
-            }
-          },
-          {
-            breakpoint: 1199,
-            settings: {
-              slidesToShow: parseInt($slickItem.attr('data-lg-items')) || 1,
-              swipe: false
-            }
-          },
-          {
-            breakpoint: 1799,
-            settings: {
-              slidesToShow: parseInt($slickItem.attr('data-xl-items')) || 1,
-              swipe: false
-            }
-          }
-        ]
-      })
-        .on('afterChange', function (event, slick, currentSlide, nextSlide) {
-          var $this = $(this),
-            childCarousel = $this.attr('data-child');
+  //     $slickItem.slick({
+  //       slidesToScroll: parseInt($slickItem.attr('data-slide-to-scroll')) || 1,
+  //       asNavFor: $slickItem.attr('data-for') || false,
+  //       dots: $slickItem.attr("data-dots") == "true",
+  //       infinite: $slickItem.attr("data-loop") == "true",
+  //       focusOnSelect: true,
+  //       arrows: $slickItem.attr("data-arrows") == "true",
+  //       swipe: $slickItem.attr("data-swipe") == "true",
+  //       autoplay: $slickItem.attr("data-autoplay") == "true",
+  //       vertical: $slickItem.attr("data-vertical") == "true",
+  //       centerMode: $slickItem.attr("data-center-mode") == "true",
+  //       centerPadding: $slickItem.attr("data-center-padding") ? $slickItem.attr("data-center-padding") : '0.50',
+  //       mobileFirst: true,
+  //       responsive: [
+  //         {
+  //           breakpoint: 0,
+  //           settings: {
+  //             slidesToShow: parseInt($slickItem.attr('data-items')) || 1,
+  //           }
+  //         },
+  //         {
+  //           breakpoint: 479,
+  //           settings: {
+  //             slidesToShow: parseInt($slickItem.attr('data-xs-items')) || 1,
+  //           }
+  //         },
+  //         {
+  //           breakpoint: 767,
+  //           settings: {
+  //             slidesToShow: parseInt($slickItem.attr('data-sm-items')) || 1,
+  //           }
+  //         },
+  //         {
+  //           breakpoint: 991,
+  //           settings: {
+  //             slidesToShow: parseInt($slickItem.attr('data-md-items')) || 1,
+  //           }
+  //         },
+  //         {
+  //           breakpoint: 1199,
+  //           settings: {
+  //             slidesToShow: parseInt($slickItem.attr('data-lg-items')) || 1,
+  //             swipe: false
+  //           }
+  //         },
+  //         {
+  //           breakpoint: 1799,
+  //           settings: {
+  //             slidesToShow: parseInt($slickItem.attr('data-xl-items')) || 1,
+  //             swipe: false
+  //           }
+  //         }
+  //       ]
+  //     })
+  //       .on('afterChange', function (event, slick, currentSlide, nextSlide) {
+  //         var $this = $(this),
+  //           childCarousel = $this.attr('data-child');
 
-          if (childCarousel) {
-            $(childCarousel + ' .slick-slide').removeClass('slick-current');
-            $(childCarousel + ' .slick-slide').eq(currentSlide).addClass('slick-current');
-          }
-        });
-    }
-  }
+  //         if (childCarousel) {
+  //           $(childCarousel + ' .slick-slide').removeClass('slick-current');
+  //           $(childCarousel + ' .slick-slide').eq(currentSlide).addClass('slick-current');
+  //         }
+  //       });
+  //   }
+  // }
 
   /**
    * RD Parallax
    * @description Enables RD Parallax plugin
    */
-  if (plugins.rdParallax.length) {
-    var i;
-    $.RDParallax();
+  // if (plugins.rdParallax.length) {
+  //   var i;
+  //   $.RDParallax();
 
-    if (!isIE && !isMobile) {
-      $(window).on("scroll", function () {
-        for (i = 0; i < plugins.rdParallax.length; i++) {
-          var parallax = $(plugins.rdParallax[i]);
-          if (isScrolledIntoView(parallax)) {
-            parallax.find(".rd-parallax-inner").css("position", "fixed");
-          } else {
-            parallax.find(".rd-parallax-inner").css("position", "absolute");
-          }
-        }
-      });
-    }
+  //   if (!isIE && !isMobile) {
+  //     $(window).on("scroll", function () {
+  //       for (i = 0; i < plugins.rdParallax.length; i++) {
+  //         var parallax = $(plugins.rdParallax[i]);
+  //         if (isScrolledIntoView(parallax)) {
+  //           parallax.find(".rd-parallax-inner").css("position", "fixed");
+  //         } else {
+  //           parallax.find(".rd-parallax-inner").css("position", "absolute");
+  //         }
+  //       }
+  //     });
+  //   }
 
-    $("a[href='#'], a[href^='#']").on("click", function (event) {
-      setTimeout(function () {
-        $(window).trigger("resize");
-      }, 300);
-    });
-  }
+  //   $("a[href='#'], a[href^='#']").on("click", function (event) {
+  //     setTimeout(function () {
+  //       $(window).trigger("resize");
+  //     }, 300);
+  //   });
+  // }
 });
