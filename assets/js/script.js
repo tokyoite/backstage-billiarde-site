@@ -4,65 +4,68 @@
 "use strict";
 
 var userAgent = navigator.userAgent.toLowerCase(),
-    initialDate = new Date(),
-
-    $document = $(document),
-    $window = $(window),
-    $html = $("html"),
-
-    isDesktop = $html.hasClass("desktop"),
-    isIE = userAgent.indexOf("msie") != -1 ? parseInt(userAgent.split("msie")[1]) : userAgent.indexOf("trident") != -1 ? 11 : userAgent.indexOf("edge") != -1 ? 12 : false,
-    isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
-    isTouch = "ontouchstart" in window,
-
-    plugins = {
-      pointerEvents: isIE < 11 ? "js/pointer-events.min.js" : false,
-      bootstrapTooltip: $("[data-toggle='tooltip']"),
-      bootstrapModalDialog: $('.modal'),
-      bootstrapTabs: $(".tabs"),
-      rdNavbar: $(".rd-navbar"),
-      rdParallax: $(".rd-parallax"),
-      rdGoogleMaps: $(".rd-google-map"),
-      rdMailForm: $(".rd-mailform"),
-      rdInputLabel: $(".form-label"),
-      regula: $("[data-constraints]"),
-      responsiveTabs: $(".responsive-tabs"),
-      owl: $(".owl-carousel"),
-      //swiper: $(".swiper-slider"),
-      search: $(".rd-search"),
-      searchResults: $('.rd-search-results'),
-      statefulButton: $('.btn-stateful'),
-      isotope: $(".isotope"),
-      popover: $('[data-toggle="popover"]'),
-      viewAnimate: $('.view-animate'),
-      photoSwipeGallery: $("[data-photo-swipe-item]"),
-      radio: $("input[type='radio']"),
-      checkbox: $("input[type='checkbox']"),
-      customToggle: $("[data-custom-toggle]"),
-      facebookWidget: $('#fb-root'),
-      dateCountdown: $('.DateCountdown'),
-      countDown: $(".countdown"),
-      counter: $(".counter"),
-      progressBarCustom: $(".progress-bar-js"),
-      selectFilter: $("select"),
-      twitterfeed: $(".twitter"),
-      stepper: $("input[type='number']"),
-      progressBar: $(".progress-linear"),
-      slick: $('.slick-slider'),
-    };
+  initialDate = new Date(),
+  $document = $(document),
+  $window = $(window),
+  $html = $("html"),
+  isDesktop = $html.hasClass("desktop"),
+  isIE =
+    userAgent.indexOf("msie") != -1
+      ? parseInt(userAgent.split("msie")[1])
+      : userAgent.indexOf("trident") != -1
+      ? 11
+      : userAgent.indexOf("edge") != -1
+      ? 12
+      : false,
+  isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    ),
+  isTouch = "ontouchstart" in window,
+  plugins = {
+    pointerEvents: isIE < 11 ? "js/pointer-events.min.js" : false,
+    bootstrapTooltip: $("[data-toggle='tooltip']"),
+    bootstrapModalDialog: $(".modal"),
+    bootstrapTabs: $(".tabs"),
+    rdNavbar: $(".rd-navbar"),
+    rdParallax: $(".rd-parallax"),
+    rdGoogleMaps: $(".rd-google-map"),
+    rdMailForm: $(".rd-mailform"),
+    rdInputLabel: $(".form-label"),
+    regula: $("[data-constraints]"),
+    responsiveTabs: $(".responsive-tabs"),
+    owl: $(".owl-carousel"),
+    //swiper: $(".swiper-slider"),
+    search: $(".rd-search"),
+    searchResults: $(".rd-search-results"),
+    statefulButton: $(".btn-stateful"),
+    isotope: $(".isotope"),
+    popover: $('[data-toggle="popover"]'),
+    viewAnimate: $(".view-animate"),
+    photoSwipeGallery: $("[data-photo-swipe-item]"),
+    radio: $("input[type='radio']"),
+    checkbox: $("input[type='checkbox']"),
+    customToggle: $("[data-custom-toggle]"),
+    facebookWidget: $("#fb-root"),
+    dateCountdown: $(".DateCountdown"),
+    countDown: $(".countdown"),
+    counter: $(".counter"),
+    progressBarCustom: $(".progress-bar-js"),
+    selectFilter: $("select"),
+    twitterfeed: $(".twitter"),
+    stepper: $("input[type='number']"),
+    progressBar: $(".progress-linear"),
+    slick: $(".slick-slider"),
+  };
 
 /**
  * Initialize All Scripts
  */
 $document.ready(function () {
-
-
-
   /**
    * makeParallax
    * @description  create swiper parallax scrolling effect
    */
- 
 
   /**
    * isScrolledIntoView
@@ -70,7 +73,10 @@ $document.ready(function () {
    */
   function isScrolledIntoView(elem) {
     var $window = $(window);
-    return elem.offset().top + elem.outerHeight() >= $window.scrollTop() && elem.offset().top <= $window.scrollTop() + $window.height();
+    return (
+      elem.offset().top + elem.outerHeight() >= $window.scrollTop() &&
+      elem.offset().top <= $window.scrollTop() + $window.height()
+    );
   }
 
   /**
@@ -79,10 +85,10 @@ $document.ready(function () {
    */
   function lazyInit(element, func) {
     var $win = jQuery(window);
-    $win.on('load scroll', function () {
-      if ((!element.hasClass('lazy-loaded') && (isScrolledIntoView(element)))) {
+    $win.on("load scroll", function () {
+      if (!element.hasClass("lazy-loaded") && isScrolledIntoView(element)) {
         func.call();
-        element.addClass('lazy-loaded');
+        element.addClass("lazy-loaded");
       }
     });
   }
@@ -92,28 +98,37 @@ $document.ready(function () {
    * @description  create live search results
    */
   function liveSearch(options) {
-    $('#' + options.live).removeClass('cleared').html();
+    $("#" + options.live)
+      .removeClass("cleared")
+      .html();
     options.current++;
-    options.spin.addClass('loading');
-    $.get(handler, {
-      s: decodeURI(options.term),
-      liveSearch: options.live,
-      dataType: "html",
-      liveCount: options.liveCount,
-      filter: options.filter,
-      template: options.template
-    }, function (data) {
-      options.processed++;
-      var live = $('#' + options.live);
-      if (options.processed == options.current && !live.hasClass('cleared')) {
-        live.find('> #search-results').removeClass('active');
-        live.html(data);
-        setTimeout(function () {
-          live.find('> #search-results').addClass('active');
-        }, 50);
+    options.spin.addClass("loading");
+    $.get(
+      handler,
+      {
+        s: decodeURI(options.term),
+        liveSearch: options.live,
+        dataType: "html",
+        liveCount: options.liveCount,
+        filter: options.filter,
+        template: options.template,
+      },
+      function (data) {
+        options.processed++;
+        var live = $("#" + options.live);
+        if (options.processed == options.current && !live.hasClass("cleared")) {
+          live.find("> #search-results").removeClass("active");
+          live.html(data);
+          setTimeout(function () {
+            live.find("> #search-results").addClass("active");
+          }, 50);
+        }
+        options.spin
+          .parents(".rd-search")
+          .find(".input-group-addon")
+          .removeClass("loading");
       }
-      options.spin.parents('.rd-search').find('.input-group-addon').removeClass('loading');
-    })
+    );
   }
 
   /**
@@ -122,8 +137,11 @@ $document.ready(function () {
    */
   function attachFormValidator(elements) {
     for (var i = 0; i < elements.length; i++) {
-      var o = $(elements[i]), v;
-      o.addClass("form-control-has-validation").after("<span class='form-validation'></span>");
+      var o = $(elements[i]),
+        v;
+      o.addClass("form-control-has-validation").after(
+        "<span class='form-validation'></span>"
+      );
       v = o.parent().find(".form-validation");
       if (v.is(":last-child")) {
         o.addClass("form-control-last-child");
@@ -131,28 +149,37 @@ $document.ready(function () {
     }
 
     elements
-        .on('input change propertychange blur', function (e) {
-          var $this = $(this), results;
+      .on("input change propertychange blur", function (e) {
+        var $this = $(this),
+          results;
 
-          if (e.type != "blur") {
-            if (!$this.parent().hasClass("has-error")) {
-              return;
-            }
-          }
-
-          if ($this.parents('.rd-mailform').hasClass('success')) {
+        if (e.type != "blur") {
+          if (!$this.parent().hasClass("has-error")) {
             return;
           }
+        }
 
-          if ((results = $this.regula('validate')).length) {
-            for (i = 0; i < results.length; i++) {
-              $this.siblings(".form-validation").text(results[i].message).parent().addClass("has-error")
-            }
-          } else {
-            $this.siblings(".form-validation").text("").parent().removeClass("has-error")
+        if ($this.parents(".rd-mailform").hasClass("success")) {
+          return;
+        }
+
+        if ((results = $this.regula("validate")).length) {
+          for (i = 0; i < results.length; i++) {
+            $this
+              .siblings(".form-validation")
+              .text(results[i].message)
+              .parent()
+              .addClass("has-error");
           }
-        })
-        .regula('bind');
+        } else {
+          $this
+            .siblings(".form-validation")
+            .text("")
+            .parent()
+            .removeClass("has-error");
+        }
+      })
+      .regula("bind");
   }
 
   /**
@@ -160,19 +187,27 @@ $document.ready(function () {
    * @description  check if all elemnts pass validation
    */
   function isValidated(elements) {
-    var results, errors = 0;
+    var results,
+      errors = 0;
     if (elements.length) {
       for (j = 0; j < elements.length; j++) {
-
         var $input = $(elements[j]);
 
-        if ((results = $input.regula('validate')).length) {
+        if ((results = $input.regula("validate")).length) {
           for (k = 0; k < results.length; k++) {
             errors++;
-            $input.siblings(".form-validation").text(results[k].message).parent().addClass("has-error");
+            $input
+              .siblings(".form-validation")
+              .text(results[k].message)
+              .parent()
+              .addClass("has-error");
           }
         } else {
-          $input.siblings(".form-validation").text("").parent().removeClass("has-error")
+          $input
+            .siblings(".form-validation")
+            .text("")
+            .parent()
+            .removeClass("has-error");
         }
       }
 
@@ -187,12 +222,12 @@ $document.ready(function () {
    */
   function initBootstrapTooltip(tooltipPlacement) {
     if (window.innerWidth < 599) {
-      plugins.bootstrapTooltip.tooltip('destroy');
+      plugins.bootstrapTooltip.tooltip("destroy");
       plugins.bootstrapTooltip.tooltip({
-        placement: 'bottom'
+        placement: "bottom",
       });
     } else {
-      plugins.bootstrapTooltip.tooltip('destroy');
+      plugins.bootstrapTooltip.tooltip("destroy");
       plugins.bootstrapTooltip.tooltipPlacement;
       plugins.bootstrapTooltip.tooltip();
     }
@@ -218,11 +253,10 @@ $document.ready(function () {
 
     if (isIE < 11) {
       if (plugins.pointerEvents) {
-        $.getScript(plugins.pointerEvents)
-            .done(function () {
-              $html.addClass("ie-10");
-              PointerEventsPolyfill.initialize({});
-            });
+        $.getScript(plugins.pointerEvents).done(function () {
+          $html.addClass("ie-10");
+          PointerEventsPolyfill.initialize({});
+        });
       }
     }
 
@@ -240,11 +274,11 @@ $document.ready(function () {
    * @description Activate Bootstrap Tooltips
    */
   if (plugins.bootstrapTooltip.length) {
-    var tooltipPlacement = plugins.bootstrapTooltip.attr('data-placement');
+    var tooltipPlacement = plugins.bootstrapTooltip.attr("data-placement");
     initBootstrapTooltip(tooltipPlacement);
-    $(window).on('resize orientationchange', function () {
+    $(window).on("resize orientationchange", function () {
       initBootstrapTooltip(tooltipPlacement);
-    })
+    });
   }
 
   /**
@@ -257,23 +291,24 @@ $document.ready(function () {
     for (i = 0; i < plugins.bootstrapModalDialog.length; i++) {
       var modalItem = $(plugins.bootstrapModalDialog[i]);
 
-      modalItem.on('hidden.bs.modal', $.proxy(function () {
-        var activeModal = $(this),
-            rdVideoInside = activeModal.find('video'),
-            youTubeVideoInside = activeModal.find('iframe');
+      modalItem.on(
+        "hidden.bs.modal",
+        $.proxy(function () {
+          var activeModal = $(this),
+            rdVideoInside = activeModal.find("video"),
+            youTubeVideoInside = activeModal.find("iframe");
 
-        if (rdVideoInside.length) {
-          rdVideoInside[0].pause();
-        }
+          if (rdVideoInside.length) {
+            rdVideoInside[0].pause();
+          }
 
-        if (youTubeVideoInside.length) {
-          var videoUrl = youTubeVideoInside.attr('src');
+          if (youTubeVideoInside.length) {
+            var videoUrl = youTubeVideoInside.attr("src");
 
-          youTubeVideoInside
-              .attr('src', '')
-              .attr('src', videoUrl);
-        }
-      }, modalItem))
+            youTubeVideoInside.attr("src", "").attr("src", videoUrl);
+          }
+        }, modalItem)
+      );
     }
   }
 
@@ -284,21 +319,23 @@ $document.ready(function () {
   if (plugins.progressBar.length) {
     for (i = 0; i < plugins.progressBar.length; i++) {
       var progressBar = $(plugins.progressBar[i]);
-      $window
-          .on("scroll load", $.proxy(function () {
-            var bar = $(this);
-            if (!bar.hasClass('animated-first') && isScrolledIntoView(bar)) {
-              var end = bar.attr("data-to");
-              bar.find('.progress-bar-linear').css({width: end + '%'});
-              bar.find('.progress-value').countTo({
-                refreshInterval: 40,
-                from: 0,
-                to: end,
-                speed: 500
-              });
-              bar.addClass('animated-first');
-            }
-          }, progressBar));
+      $window.on(
+        "scroll load",
+        $.proxy(function () {
+          var bar = $(this);
+          if (!bar.hasClass("animated-first") && isScrolledIntoView(bar)) {
+            var end = bar.attr("data-to");
+            bar.find(".progress-bar-linear").css({ width: end + "%" });
+            bar.find(".progress-value").countTo({
+              refreshInterval: 40,
+              from: 0,
+              to: end,
+              speed: 500,
+            });
+            bar.addClass("animated-first");
+          }
+        }, progressBar)
+      );
     }
   }
 
@@ -309,77 +346,98 @@ $document.ready(function () {
   if (plugins.rdGoogleMaps.length) {
     var i;
 
-    $.getScript("//maps.google.com/maps/api/js?key=AIzaSyAFeB0kVA6ouyJ_gEvFbMaefLy3cBCyRwo&sensor=false&libraries=geometry,places&v=3.7", function () {
-      var head = document.getElementsByTagName('head')[0],
+    $.getScript(
+      "//maps.google.com/maps/api/js?key=AIzaSyAFeB0kVA6ouyJ_gEvFbMaefLy3cBCyRwo&sensor=false&libraries=geometry,places&v=3.7",
+      function () {
+        var head = document.getElementsByTagName("head")[0],
           insertBefore = head.insertBefore;
 
-      head.insertBefore = function (newElement, referenceElement) {
-        if (newElement.href && newElement.href.indexOf('//fonts.googleapis.com/css?family=Roboto') != -1 || newElement.innerHTML.indexOf('gm-style') != -1) {
-          return;
-        }
-        insertBefore.call(head, newElement, referenceElement);
-      };
+        head.insertBefore = function (newElement, referenceElement) {
+          if (
+            (newElement.href &&
+              newElement.href.indexOf(
+                "//fonts.googleapis.com/css?family=Roboto"
+              ) != -1) ||
+            newElement.innerHTML.indexOf("gm-style") != -1
+          ) {
+            return;
+          }
+          insertBefore.call(head, newElement, referenceElement);
+        };
 
-      for (i = 0; i < plugins.rdGoogleMaps.length; i++) {
+        for (i = 0; i < plugins.rdGoogleMaps.length; i++) {
+          var $googleMapItem = $(plugins.rdGoogleMaps[i]);
 
-        var $googleMapItem = $(plugins.rdGoogleMaps[i]);
+          lazyInit(
+            $googleMapItem,
+            $.proxy(function () {
+              var $this = $(this),
+                styles = $this.attr("data-styles");
 
-        lazyInit($googleMapItem, $.proxy(function () {
-          var $this = $(this),
-              styles = $this.attr("data-styles");
+              $this.googleMap({
+                styles: styles ? JSON.parse(styles) : [],
+                onInit: function (map) {
+                  var inputAddress = $("#rd-google-map-address");
 
-          $this.googleMap({
-            styles: styles ? JSON.parse(styles) : [],
-            onInit: function (map) {
-              var inputAddress = $('#rd-google-map-address');
-
-              if (inputAddress.length) {
-                var input = inputAddress;
-                var geocoder = new google.maps.Geocoder();
-                var marker = new google.maps.Marker(
-                    {
+                  if (inputAddress.length) {
+                    var input = inputAddress;
+                    var geocoder = new google.maps.Geocoder();
+                    var marker = new google.maps.Marker({
                       map: map,
                       icon: "images/gmap_marker.png",
-                    }
-                );
-                var autocomplete = new google.maps.places.Autocomplete(inputAddress[0]);
-                autocomplete.bindTo('bounds', map);
-                inputAddress.attr('placeholder', '');
-                inputAddress.on('change', function () {
-                  $("#rd-google-map-address-submit").trigger('click');
-                });
-                inputAddress.on('keydown', function (e) {
-                  if (e.keyCode == 13) {
-                    $("#rd-google-map-address-submit").trigger('click');
+                    });
+                    var autocomplete = new google.maps.places.Autocomplete(
+                      inputAddress[0]
+                    );
+                    autocomplete.bindTo("bounds", map);
+                    inputAddress.attr("placeholder", "");
+                    inputAddress.on("change", function () {
+                      $("#rd-google-map-address-submit").trigger("click");
+                    });
+                    inputAddress.on("keydown", function (e) {
+                      if (e.keyCode == 13) {
+                        $("#rd-google-map-address-submit").trigger("click");
+                      }
+                    });
+
+                    $("#rd-google-map-address-submit").on(
+                      "click",
+                      function (e) {
+                        e.preventDefault();
+                        var address = input.val();
+                        geocoder.geocode(
+                          { address: address },
+                          function (results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                              var latitude = results[0].geometry.location.lat();
+                              var longitude =
+                                results[0].geometry.location.lng();
+
+                              map.setCenter(
+                                new google.maps.LatLng(
+                                  parseFloat(latitude),
+                                  parseFloat(longitude)
+                                )
+                              );
+                              marker.setPosition(
+                                new google.maps.LatLng(
+                                  parseFloat(latitude),
+                                  parseFloat(longitude)
+                                )
+                              );
+                            }
+                          }
+                        );
+                      }
+                    );
                   }
-                });
-
-
-                $("#rd-google-map-address-submit").on('click', function (e) {
-                  e.preventDefault();
-                  var address = input.val();
-                  geocoder.geocode({'address': address}, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                      var latitude = results[0].geometry.location.lat();
-                      var longitude = results[0].geometry.location.lng();
-
-                      map.setCenter(new google.maps.LatLng(
-                          parseFloat(latitude),
-                          parseFloat(longitude)
-                      ));
-                      marker.setPosition(new google.maps.LatLng(
-                          parseFloat(latitude),
-                          parseFloat(longitude)
-                      ))
-                    }
-                  });
-                });
-              }
-            }
-          });
-        }, $googleMapItem));
+                },
+              });
+            }, $googleMapItem)
+          );
+        }
       }
-    });
+    );
   }
 
   /**
@@ -393,81 +451,117 @@ $document.ready(function () {
       var responsiveTabsItem = $(plugins.responsiveTabs[i]);
 
       responsiveTabsItem.easyResponsiveTabs({
-        type: responsiveTabsItem.attr("data-type") === "accordion" ? "accordion" : "default"
+        type:
+          responsiveTabsItem.attr("data-type") === "accordion"
+            ? "accordion"
+            : "default",
       });
 
       //If have owl carousel inside tab - resize owl carousel on click
-      if (responsiveTabsItem.find('.owl-carousel').length) {
-        responsiveTabsItem.find('.resp-tab-item').on('click', $.proxy(function (event) {
-          var $this = $(this),
-              carouselObj = ($this.find('.resp-tab-content-active .owl-carousel').owlCarousel()).data('owlCarousel');
+      if (responsiveTabsItem.find(".owl-carousel").length) {
+        responsiveTabsItem.find(".resp-tab-item").on(
+          "click",
+          $.proxy(function (event) {
+            var $this = $(this),
+              carouselObj = $this
+                .find(".resp-tab-content-active .owl-carousel")
+                .owlCarousel()
+                .data("owlCarousel");
 
-          if (carouselObj && typeof carouselObj.onResize === "function") {
-            carouselObj.onResize();
-          }
-        }, responsiveTabsItem));
+            if (carouselObj && typeof carouselObj.onResize === "function") {
+              carouselObj.onResize();
+            }
+          }, responsiveTabsItem)
+        );
 
-        responsiveTabsItem.find('.resp-accordion').on('click', $.proxy(function (event) {
-          var $this = $(this),
-              carouselObj = ($this.find('.resp-tab-content-active .owl-carousel').owlCarousel()).data('owlCarousel');
+        responsiveTabsItem.find(".resp-accordion").on(
+          "click",
+          $.proxy(function (event) {
+            var $this = $(this),
+              carouselObj = $this
+                .find(".resp-tab-content-active .owl-carousel")
+                .owlCarousel()
+                .data("owlCarousel");
 
-          if (carouselObj && typeof carouselObj.onResize === "function") {
-            carouselObj.onResize();
-          }
-        }, responsiveTabsItem));
+            if (carouselObj && typeof carouselObj.onResize === "function") {
+              carouselObj.onResize();
+            }
+          }, responsiveTabsItem)
+        );
       }
 
       //If have slick carousel inside tab - resize slick carousel on click
-      if (responsiveTabsItem.find('.slick-slider').length) {
+      if (responsiveTabsItem.find(".slick-slider").length) {
+        responsiveTabsItem.find(".resp-tab-item").on(
+          "click",
+          $.proxy(function (event) {
+            var $this = $(this);
+            $this
+              .find(".resp-tab-content-active .slick-slider")
+              .slick("setPosition");
+          }, responsiveTabsItem)
+        );
 
-        responsiveTabsItem.find('.resp-tab-item').on('click', $.proxy(function (event) {
-          var $this = $(this);
-          $this.find('.resp-tab-content-active .slick-slider').slick('setPosition');
-        }, responsiveTabsItem));
+        responsiveTabsItem.find(".resp-accordion").on(
+          "click",
+          $.proxy(function (event) {
+            var $this = $(this);
 
-        responsiveTabsItem.find('.resp-accordion').on('click', $.proxy(function (event) {
-          var $this = $(this);
-
-          $this.find('.resp-tab-content-active .slick-slider').slick('setPosition');
-          console.log(1);
-        }, responsiveTabsItem));
+            $this
+              .find(".resp-tab-content-active .slick-slider")
+              .slick("setPosition");
+            console.log(1);
+          }, responsiveTabsItem)
+        );
       }
 
       // Enable external buttons (prev, text tab)
-      if (responsiveTabsItem.attr('data-external-buttons') == "true") {
-        var list = responsiveTabsItem.find('.resp-tabs-list li'),
-            newList = '<ul class="resp-tabs-extertal-list">';
+      if (responsiveTabsItem.attr("data-external-buttons") == "true") {
+        var list = responsiveTabsItem.find(".resp-tabs-list li"),
+          newList = '<ul class="resp-tabs-extertal-list">';
 
         for (var j = 0; j < list.length; j++) {
-          newList += '<li><span>' + $(list[j]).text() + '</span></li>';
+          newList += "<li><span>" + $(list[j]).text() + "</span></li>";
         }
-        newList += '</ul>';
+        newList += "</ul>";
 
-
-        responsiveTabsItem.find('.resp-tabs-container').before('<div class="resp-tab-external-prev"></div>')
-        responsiveTabsItem.find('.resp-tab-external-prev').html(newList);
-        responsiveTabsItem.find('.resp-tabs-container').after('<div class="resp-tab-external-next"></div>');
-        responsiveTabsItem.find('.resp-tab-external-next').html(newList);
+        responsiveTabsItem
+          .find(".resp-tabs-container")
+          .before('<div class="resp-tab-external-prev"></div>');
+        responsiveTabsItem.find(".resp-tab-external-prev").html(newList);
+        responsiveTabsItem
+          .find(".resp-tabs-container")
+          .after('<div class="resp-tab-external-next"></div>');
+        responsiveTabsItem.find(".resp-tab-external-next").html(newList);
 
         changeExternalButtons(responsiveTabsItem);
 
-        responsiveTabsItem.find('.resp-tab-external-prev').on('click', $.proxy(function (event) {
-          var $this = $(this);
+        responsiveTabsItem.find(".resp-tab-external-prev").on(
+          "click",
+          $.proxy(function (event) {
+            var $this = $(this);
 
-          changeExternalButtons($this, 'prev');
-        }, responsiveTabsItem));
+            changeExternalButtons($this, "prev");
+          }, responsiveTabsItem)
+        );
 
-        responsiveTabsItem.find('.resp-tab-external-next').on('click', $.proxy(function (event) {
-          var $this = $(this);
+        responsiveTabsItem.find(".resp-tab-external-next").on(
+          "click",
+          $.proxy(function (event) {
+            var $this = $(this);
 
-          changeExternalButtons($this, 'next');
-        }, responsiveTabsItem));
+            changeExternalButtons($this, "next");
+          }, responsiveTabsItem)
+        );
 
-        responsiveTabsItem.find('.resp-tabs-list .resp-tab-item').on('click', $.proxy(function (event) {
-          var $this = $(this);
+        responsiveTabsItem.find(".resp-tabs-list .resp-tab-item").on(
+          "click",
+          $.proxy(function (event) {
+            var $this = $(this);
 
-          changeExternalButtons($this);
-        }, responsiveTabsItem));
+            changeExternalButtons($this);
+          }, responsiveTabsItem)
+        );
       }
     }
   }
@@ -479,13 +573,14 @@ $document.ready(function () {
   if (plugins.facebookWidget.length) {
     lazyInit(plugins.facebookWidget, function () {
       (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s);
         js.id = id;
         js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.5";
         fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
+      })(document, "script", "facebook-jssdk");
     });
   }
 
@@ -497,7 +592,9 @@ $document.ready(function () {
     var i;
     for (i = 0; i < plugins.radio.length; i++) {
       var $this = $(plugins.radio[i]);
-      $this.addClass("radio-custom").after("<span class='radio-custom-dummy'></span>")
+      $this
+        .addClass("radio-custom")
+        .after("<span class='radio-custom-dummy'></span>");
     }
   }
 
@@ -509,7 +606,9 @@ $document.ready(function () {
     var i;
     for (i = 0; i < plugins.checkbox.length; i++) {
       var $this = $(plugins.checkbox[i]);
-      $this.addClass("checkbox-custom").after("<span class='checkbox-custom-dummy'></span>")
+      $this
+        .addClass("checkbox-custom")
+        .after("<span class='checkbox-custom-dummy'></span>");
     }
   }
 
@@ -519,10 +618,9 @@ $document.ready(function () {
    */
   if (plugins.popover.length) {
     if (window.innerWidth < 767) {
-      plugins.popover.attr('data-placement', 'bottom');
+      plugins.popover.attr("data-placement", "bottom");
       plugins.popover.popover();
-    }
-    else {
+    } else {
       plugins.popover.popover();
     }
   }
@@ -532,13 +630,13 @@ $document.ready(function () {
    * @description  Enable Bootstrap Buttons plugin
    */
   if (plugins.statefulButton.length) {
-    $(plugins.statefulButton).on('click', function () {
-      var statefulButtonLoading = $(this).button('loading');
+    $(plugins.statefulButton).on("click", function () {
+      var statefulButtonLoading = $(this).button("loading");
 
       setTimeout(function () {
-        statefulButtonLoading.button('reset')
+        statefulButtonLoading.button("reset");
       }, 2000);
-    })
+    });
   }
 
   /**
@@ -547,8 +645,8 @@ $document.ready(function () {
    */
   if (isDesktop) {
     $().UItoTop({
-      easingType: 'easeOutQuart',
-      containerClass: 'ui-to-top fa fa-angle-up'
+      easingType: "easeOutQuart",
+      containerClass: "ui-to-top fa fa-angle-up",
     });
   }
 
@@ -558,10 +656,12 @@ $document.ready(function () {
    */
   if (plugins.rdNavbar.length) {
     plugins.rdNavbar.RDNavbar({
-      stickUpClone: (plugins.rdNavbar.attr("data-stick-up-clone")) ? plugins.rdNavbar.attr("data-stick-up-clone") === 'true' : false
+      stickUpClone: plugins.rdNavbar.attr("data-stick-up-clone")
+        ? plugins.rdNavbar.attr("data-stick-up-clone") === "true"
+        : false,
     });
     if (plugins.rdNavbar.attr("data-body-class")) {
-      document.body.className += ' ' + plugins.rdNavbar.attr("data-body-class");
+      document.body.className += " " + plugins.rdNavbar.attr("data-body-class");
     }
   }
 
@@ -572,13 +672,17 @@ $document.ready(function () {
   if (plugins.viewAnimate.length) {
     var i;
     for (i = 0; i < plugins.viewAnimate.length; i++) {
-      var $view = $(plugins.viewAnimate[i]).not('.active');
-      $document.on("scroll", $.proxy(function () {
+      var $view = $(plugins.viewAnimate[i]).not(".active");
+      $document
+        .on(
+          "scroll",
+          $.proxy(function () {
             if (isScrolledIntoView(this)) {
               this.addClass("active");
             }
-          }, $view))
-          .trigger("scroll");
+          }, $view)
+        )
+        .trigger("scroll");
     }
   }
 
@@ -587,36 +691,45 @@ $document.ready(function () {
    * @description  Enable Swiper Slider
    */
 
-
   /**
    * RD Search
    * @description Enables search
    */
   if (plugins.search.length || plugins.searchResults) {
     var handler = "bat/rd-search.php";
-    var defaultTemplate = '<h5 class="search_title"><a target="_top" href="#{href}" class="search_link">#{title}</a></h5>' +
-        '<p>...#{token}...</p>' +
-        '<p class="match"><em>Terms matched: #{count} - URL: #{href}</em></p>';
-    var defaultFilter = '*.html';
+    var defaultTemplate =
+      '<h5 class="search_title"><a target="_top" href="#{href}" class="search_link">#{title}</a></h5>' +
+      "<p>...#{token}...</p>" +
+      '<p class="match"><em>Terms matched: #{count} - URL: #{href}</em></p>';
+    var defaultFilter = "*.html";
 
     if (plugins.search.length) {
-
       for (i = 0; i < plugins.search.length; i++) {
         var searchItem = $(plugins.search[i]),
-            options = {
-              element: searchItem,
-              filter: (searchItem.attr('data-search-filter')) ? searchItem.attr('data-search-filter') : defaultFilter,
-              template: (searchItem.attr('data-search-template')) ? searchItem.attr('data-search-template') : defaultTemplate,
-              live: (searchItem.attr('data-search-live')) ? searchItem.attr('data-search-live') : false,
-              liveCount: (searchItem.attr('data-search-live-count')) ? parseInt(searchItem.attr('data-search-live')) : 4,
-              current: 0, processed: 0, timer: {}
-            };
+          options = {
+            element: searchItem,
+            filter: searchItem.attr("data-search-filter")
+              ? searchItem.attr("data-search-filter")
+              : defaultFilter,
+            template: searchItem.attr("data-search-template")
+              ? searchItem.attr("data-search-template")
+              : defaultTemplate,
+            live: searchItem.attr("data-search-live")
+              ? searchItem.attr("data-search-live")
+              : false,
+            liveCount: searchItem.attr("data-search-live-count")
+              ? parseInt(searchItem.attr("data-search-live"))
+              : 4,
+            current: 0,
+            processed: 0,
+            timer: {},
+          };
 
-        if ($('.rd-navbar-search-toggle').length) {
-          var toggle = $('.rd-navbar-search-toggle');
-          toggle.on('click', function () {
-            if (!($(this).hasClass('active'))) {
-              searchItem.find('input').val('').trigger('propertychange');
+        if ($(".rd-navbar-search-toggle").length) {
+          var toggle = $(".rd-navbar-search-toggle");
+          toggle.on("click", function () {
+            if (!$(this).hasClass("active")) {
+              searchItem.find("input").val("").trigger("propertychange");
             }
           });
         }
@@ -624,38 +737,55 @@ $document.ready(function () {
         if (options.live) {
           var clearHandler = false;
 
-          searchItem.find('input').on("keyup input propertychange", $.proxy(function () {
-            this.term = this.element.find('input').val().trim();
-            this.spin = this.element.find('.input-group-addon');
+          searchItem.find("input").on(
+            "keyup input propertychange",
+            $.proxy(
+              function () {
+                this.term = this.element.find("input").val().trim();
+                this.spin = this.element.find(".input-group-addon");
 
-            clearTimeout(this.timer);
+                clearTimeout(this.timer);
 
-            if (this.term.length > 2) {
-              this.timer = setTimeout(liveSearch(this), 200);
+                if (this.term.length > 2) {
+                  this.timer = setTimeout(liveSearch(this), 200);
 
-              if (clearHandler == false) {
-                clearHandler = true;
+                  if (clearHandler == false) {
+                    clearHandler = true;
 
-                $("body").on("click", function (e) {
-                  if ($(e.toElement).parents('.rd-search').length == 0) {
-                    $('#rd-search-results-live').addClass('cleared').html('');
+                    $("body").on("click", function (e) {
+                      if ($(e.toElement).parents(".rd-search").length == 0) {
+                        $("#rd-search-results-live")
+                          .addClass("cleared")
+                          .html("");
+                      }
+                    });
                   }
-                })
-              }
-
-            } else if (this.term.length == 0) {
-              $('#' + this.live).addClass('cleared').html('');
-            }
-          }, options, this));
+                } else if (this.term.length == 0) {
+                  $("#" + this.live)
+                    .addClass("cleared")
+                    .html("");
+                }
+              },
+              options,
+              this
+            )
+          );
         }
 
-        searchItem.submit($.proxy(function () {
-          $('<input />').attr('type', 'hidden')
-              .attr('name', "filter")
-              .attr('value', this.filter)
-              .appendTo(this.element);
-          return true;
-        }, options, this))
+        searchItem.submit(
+          $.proxy(
+            function () {
+              $("<input />")
+                .attr("type", "hidden")
+                .attr("name", "filter")
+                .attr("value", this.filter)
+                .appendTo(this.element);
+              return true;
+            },
+            options,
+            this
+          )
+        );
       }
     }
 
@@ -664,15 +794,19 @@ $document.ready(function () {
       var match = regExp.exec(location.search);
 
       if (match != null) {
-        $.get(handler, {
-          s: decodeURI(match[1]),
-          dataType: "html",
-          filter: match[2],
-          template: defaultTemplate,
-          live: ''
-        }, function (data) {
-          plugins.searchResults.html(data);
-        })
+        $.get(
+          handler,
+          {
+            s: decodeURI(match[1]),
+            dataType: "html",
+            filter: match[2],
+            template: defaultTemplate,
+            live: "",
+          },
+          function (data) {
+            plugins.searchResults.html(data);
+          }
+        );
       }
     }
   }
@@ -685,23 +819,40 @@ $document.ready(function () {
     var i;
     for (i = 0; i < plugins.owl.length; i++) {
       var c = $(plugins.owl[i]),
-          responsive = {};
+        responsive = {};
 
       var aliaces = ["-", "-xs-", "-sm-", "-md-", "-lg-"],
-          values = [0, 480, 768, 992, 1200],
-          j, k;
+        values = [0, 480, 768, 992, 1200],
+        j,
+        k;
 
       for (j = 0; j < values.length; j++) {
         responsive[values[j]] = {};
         for (k = j; k >= -1; k--) {
-          if (!responsive[values[j]]["items"] && c.attr("data" + aliaces[k] + "items")) {
-            responsive[values[j]]["items"] = k < 0 ? 1 : parseInt(c.attr("data" + aliaces[k] + "items"));
+          if (
+            !responsive[values[j]]["items"] &&
+            c.attr("data" + aliaces[k] + "items")
+          ) {
+            responsive[values[j]]["items"] =
+              k < 0 ? 1 : parseInt(c.attr("data" + aliaces[k] + "items"));
           }
-          if (!responsive[values[j]]["stagePadding"] && responsive[values[j]]["stagePadding"] !== 0 && c.attr("data" + aliaces[k] + "stage-padding")) {
-            responsive[values[j]]["stagePadding"] = k < 0 ? 0 : parseInt(c.attr("data" + aliaces[k] + "stage-padding"));
+          if (
+            !responsive[values[j]]["stagePadding"] &&
+            responsive[values[j]]["stagePadding"] !== 0 &&
+            c.attr("data" + aliaces[k] + "stage-padding")
+          ) {
+            responsive[values[j]]["stagePadding"] =
+              k < 0
+                ? 0
+                : parseInt(c.attr("data" + aliaces[k] + "stage-padding"));
           }
-          if (!responsive[values[j]]["margin"] && responsive[values[j]]["margin"] !== 0 && c.attr("data" + aliaces[k] + "margin")) {
-            responsive[values[j]]["margin"] = k < 0 ? 30 : parseInt(c.attr("data" + aliaces[k] + "margin"));
+          if (
+            !responsive[values[j]]["margin"] &&
+            responsive[values[j]]["margin"] !== 0 &&
+            c.attr("data" + aliaces[k] + "margin")
+          ) {
+            responsive[values[j]]["margin"] =
+              k < 0 ? 30 : parseInt(c.attr("data" + aliaces[k] + "margin"));
           }
         }
       }
@@ -715,9 +866,13 @@ $document.ready(function () {
         mouseDrag: c.attr("data-mouse-drag") !== "false",
         nav: c.attr("data-nav") === "true",
         dots: c.attr("data-dots") === "true",
-        dotsEach: c.attr("data-dots-each") ? parseInt(c.attr("data-dots-each")) : false,
-        animateIn: 'fadeIn',
-        animateOut: c.attr('data-animation-out') ? c.attr('data-animation-out') : false,
+        dotsEach: c.attr("data-dots-each")
+          ? parseInt(c.attr("data-dots-each"))
+          : false,
+        animateIn: "fadeIn",
+        animateOut: c.attr("data-animation-out")
+          ? c.attr("data-animation-out")
+          : false,
         responsive: responsive,
         navText: [],
         center: c.attr("data-center") === "true",
@@ -731,58 +886,78 @@ $document.ready(function () {
    * @description Enables Isotope plugin
    */
   if (plugins.isotope.length) {
-    var i, j, isogroup = [];
+    var i,
+      j,
+      isogroup = [];
     for (i = 0; i < plugins.isotope.length; i++) {
       var isotopeItem = plugins.isotope[i],
-          filterItems = $(isotopeItem).closest('.isotope-wrap').find('[data-isotope-filter]'),
-          iso;
+        filterItems = $(isotopeItem)
+          .closest(".isotope-wrap")
+          .find("[data-isotope-filter]"),
+        iso;
 
       iso = new Isotope(isotopeItem, {
-        itemSelector: '.isotope-item',
-        layoutMode: isotopeItem.getAttribute('data-isotope-layout') ? isotopeItem.getAttribute('data-isotope-layout') : 'masonry',
-        filter: '*',
+        itemSelector: ".isotope-item",
+        layoutMode: isotopeItem.getAttribute("data-isotope-layout")
+          ? isotopeItem.getAttribute("data-isotope-layout")
+          : "masonry",
+        filter: "*",
         masonry: {
-          columnWidth: 0.66
-        }
+          columnWidth: 0.66,
+        },
       });
 
       isogroup.push(iso);
 
-      filterItems.on("click", function (e) {
-        e.preventDefault();
-        var filter = $(this),
-            iso = $('.isotope[data-isotope-group="' + this.getAttribute("data-isotope-group") + '"]'),
+      filterItems
+        .on("click", function (e) {
+          e.preventDefault();
+          var filter = $(this),
+            iso = $(
+              '.isotope[data-isotope-group="' +
+                this.getAttribute("data-isotope-group") +
+                '"]'
+            ),
             filtersContainer = filter.closest(".isotope-filters");
 
-        filtersContainer
-            .find('.active')
-            .removeClass("active");
-        filter.addClass("active");
+          filtersContainer.find(".active").removeClass("active");
+          filter.addClass("active");
 
-        iso.isotope({
-          itemSelector: '.isotope-item',
-          layoutMode: iso.attr('data-isotope-layout') ? iso.attr('data-isotope-layout') : 'masonry',
-          filter: this.getAttribute("data-isotope-filter") == '*' ? '*' : '[data-filter*="' + this.getAttribute("data-isotope-filter") + '"]',
-          masonry: {
-            columnWidth: 0.66
+          iso.isotope({
+            itemSelector: ".isotope-item",
+            layoutMode: iso.attr("data-isotope-layout")
+              ? iso.attr("data-isotope-layout")
+              : "masonry",
+            filter:
+              this.getAttribute("data-isotope-filter") == "*"
+                ? "*"
+                : '[data-filter*="' +
+                  this.getAttribute("data-isotope-filter") +
+                  '"]',
+            masonry: {
+              columnWidth: 0.66,
+            },
+          });
+
+          $window.trigger("resize");
+
+          // If d3Charts contains in isotop, resize it on click.
+          if (
+            filtersContainer.hasClass("isotope-has-d3-graphs") &&
+            c3ChartsArray != undefined
+          ) {
+            setTimeout(function () {
+              for (var j = 0; j < c3ChartsArray.length; j++) {
+                c3ChartsArray[j].resize();
+              }
+            }, 500);
           }
-        });
-
-        $window.trigger('resize');
-
-        // If d3Charts contains in isotop, resize it on click.
-        if (filtersContainer.hasClass('isotope-has-d3-graphs') && c3ChartsArray != undefined) {
-          setTimeout(function () {
-            for (var j = 0; j < c3ChartsArray.length; j++) {
-              c3ChartsArray[j].resize();
-            }
-          }, 500);
-        }
-
-      }).eq(0).trigger("click");
+        })
+        .eq(0)
+        .trigger("click");
     }
 
-    $(window).on('load', function () {
+    $(window).on("load", function () {
       setTimeout(function () {
         var i;
         for (i = 0; i < isogroup.length; i++) {
@@ -793,20 +968,29 @@ $document.ready(function () {
     });
   }
 
-      /**
-     * Select2
-     * @description Enables select2 plugin
-     */
-    if (plugins.selectFilter.length) {
-      var i;
-      for (i = 0; i < plugins.selectFilter.length; i++) {
-        var select = $(plugins.selectFilter[i]);
+  /**
+   * Select2
+   * @description Enables select2 plugin
+   */
+  if (plugins.selectFilter.length) {
+    var i;
+    for (i = 0; i < plugins.selectFilter.length; i++) {
+      var select = $(plugins.selectFilter[i]);
 
-        select.select2({
-          theme: "bootstrap"
-        }).next().addClass(select.attr("class").match(/(input-sm)|(input-lg)|($)/i).toString().replace(new RegExp(",", 'g'), " "));
-      }
+      select
+        .select2({
+          theme: "bootstrap",
+        })
+        .next()
+        .addClass(
+          select
+            .attr("class")
+            .match(/(input-sm)|(input-lg)|($)/i)
+            .toString()
+            .replace(new RegExp(",", "g"), " ")
+        );
     }
+  }
 
   /**
    * WOW
@@ -827,7 +1011,7 @@ $document.ready(function () {
 
       bootstrapTabsItem.on("click", "a", function (event) {
         event.preventDefault();
-        $(this).tab('show');
+        $(this).tab("show");
       });
     }
   }
@@ -848,29 +1032,30 @@ $document.ready(function () {
     attachFormValidator(plugins.regula);
   }
 
-
   /**
    * RD Mailform
    */
   if (plugins.rdMailForm.length) {
-    var i, j, k,
-        msg = {
-          'MF000': 'Successfully sent!',
-          'MF001': 'Recipients are not set!',
-          'MF002': 'Form will not work locally!',
-          'MF003': 'Please, define email field in your form!',
-          'MF004': 'Please, define type of your form!',
-          'MF254': 'Something went wrong with PHPMailer!',
-          'MF255': 'Aw, snap! Something went wrong.'
-        };
+    var i,
+      j,
+      k,
+      msg = {
+        MF000: "Successfully sent!",
+        MF001: "Recipients are not set!",
+        MF002: "Form will not work locally!",
+        MF003: "Please, define email field in your form!",
+        MF004: "Please, define type of your form!",
+        MF254: "Something went wrong with PHPMailer!",
+        MF255: "Aw, snap! Something went wrong.",
+      };
 
     for (i = 0; i < plugins.rdMailForm.length; i++) {
       var $form = $(plugins.rdMailForm[i]);
 
-      $form.attr('novalidate', 'novalidate').ajaxForm({
+      $form.attr("novalidate", "novalidate").ajaxForm({
         data: {
           "form-type": $form.attr("data-form-type") || "contact",
-          "counter": i
+          counter: i,
         },
         beforeSubmit: function () {
           var form = $(plugins.rdMailForm[this.extraData.counter]);
@@ -879,7 +1064,9 @@ $document.ready(function () {
             var output = $("#" + form.attr("data-form-output"));
 
             if (output.hasClass("snackbars")) {
-              output.html('<p><span class="icon text-middle fa fa-circle-o-notch fa-spin icon-xxs"></span><span>Sending</span></p>');
+              output.html(
+                '<p><span class="icon text-middle fa fa-circle-o-notch fa-spin icon-xxs"></span><span>Sending</span></p>'
+              );
               output.addClass("active");
             }
           } else {
@@ -887,46 +1074,59 @@ $document.ready(function () {
           }
         },
         error: function (result) {
-          var output = $("#" + $(plugins.rdMailForm[this.extraData.counter]).attr("data-form-output"));
+          var output = $(
+            "#" +
+              $(plugins.rdMailForm[this.extraData.counter]).attr(
+                "data-form-output"
+              )
+          );
           output.text(msg[result]);
         },
         success: function (result) {
           var form = $(plugins.rdMailForm[this.extraData.counter]),
-              output = $("#" + form.attr("data-form-output")),
-              $select = form.find('select');
+            output = $("#" + form.attr("data-form-output")),
+            $select = form.find("select");
 
           // Clear select2 after submit form
           if ($select.length) {
             for (j = 0; j < $select.length; j++) {
               var $selectitem = $($select[j]);
-              $selectitem.select2('val', null);
+              $selectitem.select2("val", null);
             }
           }
 
-          form.addClass('success');
-          result = result.length == 5 ? result : 'MF255';
+          form.addClass("success");
+          result = result.length == 5 ? result : "MF255";
           output.text(msg[result]);
 
           if (result === "MF000") {
             if (output.hasClass("snackbars")) {
-              output.html('<p><span class="icon text-middle mdi mdi-check icon-xxs"></span><span>' + msg[result] + '</span></p>');
+              output.html(
+                '<p><span class="icon text-middle mdi mdi-check icon-xxs"></span><span>' +
+                  msg[result] +
+                  "</span></p>"
+              );
             }
             output.addClass("success active");
           } else {
             if (output.hasClass("snackbars")) {
-              output.html(' <p class="snackbars-left"><span class="icon icon-xxs mdi mdi-alert-outline text-middle"></span><span>' + msg[result] + '</span></p>');
+              output.html(
+                ' <p class="snackbars-left"><span class="icon icon-xxs mdi mdi-alert-outline text-middle"></span><span>' +
+                  msg[result] +
+                  "</span></p>"
+              );
             }
             output.addClass("error active");
           }
 
           form.clearForm();
-          form.find('input, textarea').blur();
+          form.find("input, textarea").blur();
 
           setTimeout(function () {
             output.removeClass("active error success");
-            form.removeClass('success');
+            form.removeClass("success");
           }, 5000);
-        }
+        },
       });
     }
   }
@@ -939,20 +1139,23 @@ $document.ready(function () {
     var i;
 
     for (i = 0; i < plugins.counter.length; i++) {
-      var $counterNotAnimated = $(plugins.counter[i]).not('.animated');
+      var $counterNotAnimated = $(plugins.counter[i]).not(".animated");
       $document
-          .on("scroll", $.proxy(function () {
+        .on(
+          "scroll",
+          $.proxy(function () {
             var $this = this;
 
-            if ((!$this.hasClass("animated")) && (isScrolledIntoView($this))) {
+            if (!$this.hasClass("animated") && isScrolledIntoView($this)) {
               $this.countTo({
                 refreshInterval: 40,
-                speed: $this.attr("data-speed") || 1000
+                speed: $this.attr("data-speed") || 1000,
               });
-              $this.addClass('animated');
+              $this.addClass("animated");
             }
-          }, $counterNotAnimated))
-          .trigger("scroll");
+          }, $counterNotAnimated)
+        )
+        .trigger("scroll");
     }
   }
 
@@ -964,15 +1167,15 @@ $document.ready(function () {
     var i;
     for (i = 0; i < plugins.countDown.length; i++) {
       var countDownItem = plugins.countDown[i],
-          d = new Date(),
-          type = countDownItem.getAttribute('data-type'),
-          time = countDownItem.getAttribute('data-time'),
-          format = countDownItem.getAttribute('data-format'),
-          settings = [];
+        d = new Date(),
+        type = countDownItem.getAttribute("data-type"),
+        time = countDownItem.getAttribute("data-time"),
+        format = countDownItem.getAttribute("data-format"),
+        settings = [];
 
       d.setTime(Date.parse(time)).toLocaleString();
       settings[type] = d;
-      settings['format'] = format;
+      settings["format"] = format;
       $(countDownItem).countdown(settings);
     }
   }
@@ -985,113 +1188,159 @@ $document.ready(function () {
     var i;
     for (i = 0; i < plugins.dateCountdown.length; i++) {
       var dateCountdownItem = $(plugins.dateCountdown[i]),
-          time = {
-            "Days": {
-              "text": "Days",
-              "show": true,
-              color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-            },
-            "Hours": {
-              "text": "Hours",
-              "show": true,
-              color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-            },
-            "Minutes": {
-              "text": "Minutes",
-              "show": true,
-              color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-            },
-            "Seconds": {
-              "text": "Seconds",
-              "show": true,
-              color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-            }
-          };
+        time = {
+          Days: {
+            text: "Days",
+            show: true,
+            color: dateCountdownItem.attr("data-color")
+              ? dateCountdownItem.attr("data-color")
+              : "#f9f9f9",
+          },
+          Hours: {
+            text: "Hours",
+            show: true,
+            color: dateCountdownItem.attr("data-color")
+              ? dateCountdownItem.attr("data-color")
+              : "#f9f9f9",
+          },
+          Minutes: {
+            text: "Minutes",
+            show: true,
+            color: dateCountdownItem.attr("data-color")
+              ? dateCountdownItem.attr("data-color")
+              : "#f9f9f9",
+          },
+          Seconds: {
+            text: "Seconds",
+            show: true,
+            color: dateCountdownItem.attr("data-color")
+              ? dateCountdownItem.attr("data-color")
+              : "#f9f9f9",
+          },
+        };
 
       dateCountdownItem.TimeCircles({
-        color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "rgba(247, 247, 247, 1)",
+        color: dateCountdownItem.attr("data-color")
+          ? dateCountdownItem.attr("data-color")
+          : "rgba(247, 247, 247, 1)",
         animation: "smooth",
-        bg_width: dateCountdownItem.attr("data-bg-width") ? dateCountdownItem.attr("data-bg-width") : 1.1,
-        circle_bg_color: dateCountdownItem.attr("data-bg") ? dateCountdownItem.attr("data-bg") : "rgba(0, 0, 0, 1)",
-        fg_width: dateCountdownItem.attr("data-width") ? dateCountdownItem.attr("data-width") : 0.04
+        bg_width: dateCountdownItem.attr("data-bg-width")
+          ? dateCountdownItem.attr("data-bg-width")
+          : 1.1,
+        circle_bg_color: dateCountdownItem.attr("data-bg")
+          ? dateCountdownItem.attr("data-bg")
+          : "rgba(0, 0, 0, 1)",
+        fg_width: dateCountdownItem.attr("data-width")
+          ? dateCountdownItem.attr("data-width")
+          : 0.04,
       });
 
-      $(window).on('load resize orientationchange', function () {
+      $(window).on("load resize orientationchange", function () {
         if (window.innerWidth < 479) {
-          dateCountdownItem.TimeCircles({
-            time: {
-              "Days": {
-                "text": "Days",
-                "show": true,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
+          dateCountdownItem
+            .TimeCircles({
+              time: {
+                Days: {
+                  text: "Days",
+                  show: true,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
+                Hours: {
+                  text: "Hours",
+                  show: true,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
+                Minutes: {
+                  text: "Minutes",
+                  show: true,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
+                Seconds: {
+                  text: "Seconds",
+                  show: false,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
               },
-              "Hours": {
-                "text": "Hours",
-                "show": true,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-              },
-              "Minutes": {
-                "text": "Minutes",
-                "show": true,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-              },
-              Seconds: {
-                "text": "Seconds",
-                show: false,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-              }
-            }
-          }).rebuild();
+            })
+            .rebuild();
         } else if (window.innerWidth < 767) {
-          dateCountdownItem.TimeCircles({
-            time: {
-              "Days": {
-                "text": "Days",
-                "show": true,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
+          dateCountdownItem
+            .TimeCircles({
+              time: {
+                Days: {
+                  text: "Days",
+                  show: true,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
+                Hours: {
+                  text: "Hours",
+                  show: true,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
+                Minutes: {
+                  text: "Minutes",
+                  show: true,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
+                Seconds: {
+                  text: "Seconds",
+                  show: false,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
               },
-              "Hours": {
-                "text": "Hours",
-                "show": true,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-              },
-              "Minutes": {
-                "text": "Minutes",
-                "show": true,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-              },
-              Seconds: {
-                "text": "Seconds",
-                show: false,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-              }
-            }
-          }).rebuild();
+            })
+            .rebuild();
         } else {
-          dateCountdownItem.TimeCircles({
-            time: {
-              "Days": {
-                "text": "Days",
-                "show": true,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
+          dateCountdownItem
+            .TimeCircles({
+              time: {
+                Days: {
+                  text: "Days",
+                  show: true,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
+                Hours: {
+                  text: "Hours",
+                  show: true,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
+                Minutes: {
+                  text: "Minutes",
+                  show: true,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
+                Seconds: {
+                  text: "Seconds",
+                  show: true,
+                  color: dateCountdownItem.attr("data-color")
+                    ? dateCountdownItem.attr("data-color")
+                    : "#f9f9f9",
+                },
               },
-              "Hours": {
-                "text": "Hours",
-                "show": true,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-              },
-              "Minutes": {
-                "text": "Minutes",
-                "show": true,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-              },
-              "Seconds": {
-                "text": "Seconds",
-                "show": true,
-                color: dateCountdownItem.attr("data-color") ? dateCountdownItem.attr("data-color") : "#f9f9f9"
-              }
-            }
-          }).rebuild();
+            })
+            .rebuild();
         }
       });
     }
@@ -1102,19 +1351,20 @@ $document.ready(function () {
    * @description Enables PhotoSwipe Gallery plugin
    */
   if (plugins.photoSwipeGallery.length) {
-
     // init image click event
     $document.delegate("[data-photo-swipe-item]", "click", function (event) {
       event.preventDefault();
 
       var $el = $(this),
-          $galleryItems = $el.parents("[data-photo-swipe-gallery]").find("a[data-photo-swipe-item]"),
-          pswpElement = document.querySelectorAll('.pswp')[0],
-          encounteredItems = {},
-          pswpItems = [],
-          options,
-          pswpIndex = 0,
-          pswp;
+        $galleryItems = $el
+          .parents("[data-photo-swipe-gallery]")
+          .find("a[data-photo-swipe-item]"),
+        pswpElement = document.querySelectorAll(".pswp")[0],
+        encounteredItems = {},
+        pswpItems = [],
+        options,
+        pswpIndex = 0,
+        pswp;
 
       if ($galleryItems.length == 0) {
         $galleryItems = $el;
@@ -1123,12 +1373,11 @@ $document.ready(function () {
       // loop over the gallery to build up the photoswipe items
       $galleryItems.each(function () {
         var $item = $(this),
-            src = $item.attr('href'),
-            size = $item.attr('data-size').split('x'),
-            pswdItem;
+          src = $item.attr("href"),
+          size = $item.attr("data-size").split("x"),
+          pswdItem;
 
-        if ($item.is(':visible')) {
-
+        if ($item.is(":visible")) {
           // if we have this image the first time
           if (!encounteredItems[src]) {
             // build the photoswipe item
@@ -1136,13 +1385,13 @@ $document.ready(function () {
               src: src,
               w: parseInt(size[0], 10),
               h: parseInt(size[1], 10),
-              el: $item // save link to element for getThumbBoundsFn
+              el: $item, // save link to element for getThumbBoundsFn
             };
 
             // store that we already had this item
             encounteredItems[src] = {
               item: pswdItem,
-              index: pswpIndex
+              index: pswpIndex,
             };
 
             // push the item to the photoswipe list
@@ -1153,22 +1402,27 @@ $document.ready(function () {
       });
 
       options = {
-        index: encounteredItems[$el.attr('href')].index,
+        index: encounteredItems[$el.attr("href")].index,
 
         getThumbBoundsFn: function (index) {
           var $el = pswpItems[index].el,
-              offset = $el.offset();
+            offset = $el.offset();
 
           return {
             x: offset.left,
             y: offset.top,
-            w: $el.width()
+            w: $el.width(),
           };
-        }
+        },
       };
 
       // open the photoswipe gallery
-      pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, pswpItems, options);
+      pswp = new PhotoSwipe(
+        pswpElement,
+        PhotoSwipeUI_Default,
+        pswpItems,
+        options
+      );
       pswp.init();
     });
   }
@@ -1182,20 +1436,27 @@ $document.ready(function () {
     for (i = 0; i < plugins.customToggle.length; i++) {
       var $this = $(plugins.customToggle[i]);
 
-      $this.on('click', $.proxy(function (event) {
-        event.preventDefault();
-        var $ctx = $(this);
-        $($ctx.attr('data-custom-toggle')).add(this).toggleClass('active');
-      }, $this));
+      $this.on(
+        "click",
+        $.proxy(function (event) {
+          event.preventDefault();
+          var $ctx = $(this);
+          $($ctx.attr("data-custom-toggle")).add(this).toggleClass("active");
+        }, $this)
+      );
 
       if ($this.attr("data-custom-toggle-disable-on-blur") === "true") {
         $("body").on("click", $this, function (e) {
-          if (e.target !== e.data[0]
-              && $(e.data.attr('data-custom-toggle')).find($(e.target)).length
-              && e.data.find($(e.target)).length == 0) {
-            $(e.data.attr('data-custom-toggle')).add(e.data[0]).removeClass('active');
+          if (
+            e.target !== e.data[0] &&
+            $(e.data.attr("data-custom-toggle")).find($(e.target)).length &&
+            e.data.find($(e.target)).length == 0
+          ) {
+            $(e.data.attr("data-custom-toggle"))
+              .add(e.data[0])
+              .removeClass("active");
           }
-        })
+        });
       }
     }
   }
@@ -1205,35 +1466,52 @@ $document.ready(function () {
    * @description  Enable progress bar
    */
   if (plugins.progressBarCustom.length) {
-    var i,
-        bar,
-        type;
+    var i, bar, type;
 
     for (i = 0; i < plugins.progressBarCustom.length; i++) {
       var progressItem = plugins.progressBarCustom[i];
       bar = null;
 
       if (progressItem.className.indexOf("progress-bar-horizontal") > -1) {
-        type = 'Line';
+        type = "Line";
       }
 
       if (progressItem.className.indexOf("progress-bar-radial") > -1) {
-        type = 'Circle';
+        type = "Circle";
       }
 
-      if (progressItem.getAttribute("data-stroke") && progressItem.getAttribute("data-value") && type) {
+      if (
+        progressItem.getAttribute("data-stroke") &&
+        progressItem.getAttribute("data-value") &&
+        type
+      ) {
         bar = new ProgressBar[type](progressItem, {
-          strokeWidth: Math.round(parseFloat(progressItem.getAttribute("data-stroke")) / progressItem.offsetWidth * 100),
-          trailWidth: progressItem.getAttribute("data-trail") ? Math.round(parseFloat(progressItem.getAttribute("data-trail")) / progressItem.offsetWidth * 100) : 0,
+          strokeWidth: Math.round(
+            (parseFloat(progressItem.getAttribute("data-stroke")) /
+              progressItem.offsetWidth) *
+              100
+          ),
+          trailWidth: progressItem.getAttribute("data-trail")
+            ? Math.round(
+                (parseFloat(progressItem.getAttribute("data-trail")) /
+                  progressItem.offsetWidth) *
+                  100
+              )
+            : 0,
           text: {
-            value: progressItem.getAttribute("data-counter") === "true" ? '0' : null,
-            className: 'progress-bar__body',
-            style: null
-          }
+            value:
+              progressItem.getAttribute("data-counter") === "true" ? "0" : null,
+            className: "progress-bar__body",
+            style: null,
+          },
         });
-        bar.svg.setAttribute('preserveAspectRatio', "none meet");
-        if (type === 'Line') {
-          bar.svg.setAttributeNS(null, "height", progressItem.getAttribute("data-stroke"));
+        bar.svg.setAttribute("preserveAspectRatio", "none meet");
+        if (type === "Line") {
+          bar.svg.setAttributeNS(
+            null,
+            "height",
+            progressItem.getAttribute("data-stroke")
+          );
         }
 
         bar.path.removeAttribute("stroke");
@@ -1245,35 +1523,54 @@ $document.ready(function () {
 
         if (progressItem.getAttribute("data-easing") && !isIE) {
           $(document)
-              .on("scroll", {"barItem": bar}, $.proxy(function (event) {
+            .on(
+              "scroll",
+              { barItem: bar },
+              $.proxy(function (event) {
                 var bar = event.data.barItem;
                 var $this = $(this);
 
-                if (isScrolledIntoView($this) && this.className.indexOf("progress-bar--animated") === -1) {
+                if (
+                  isScrolledIntoView($this) &&
+                  this.className.indexOf("progress-bar--animated") === -1
+                ) {
                   this.className += " progress-bar--animated";
                   bar.animate(parseInt($this.attr("data-value")) / 100.0, {
                     easing: $this.attr("data-easing"),
-                    duration: $this.attr("data-duration") ? parseInt($this.attr("data-duration")) : 800,
+                    duration: $this.attr("data-duration")
+                      ? parseInt($this.attr("data-duration"))
+                      : 800,
                     step: function (state, b) {
-                      if (b._container.className.indexOf("progress-bar-horizontal") > -1 ||
-                          b._container.className.indexOf("progress-bar-vertical") > -1) {
-                        b.text.style.width = Math.abs(b.value() * 100).toFixed(0) + "%"
+                      if (
+                        b._container.className.indexOf(
+                          "progress-bar-horizontal"
+                        ) > -1 ||
+                        b._container.className.indexOf(
+                          "progress-bar-vertical"
+                        ) > -1
+                      ) {
+                        b.text.style.width =
+                          Math.abs(b.value() * 100).toFixed(0) + "%";
                       }
                       b.setText(Math.abs(b.value() * 100).toFixed(0));
-                    }
+                    },
                   });
                 }
-              }, progressItem))
-              .trigger("scroll");
+              }, progressItem)
+            )
+            .trigger("scroll");
         } else {
           bar.set(parseInt($(progressItem).attr("data-value")) / 100.0);
           bar.setText($(progressItem).attr("data-value"));
-          if (type === 'Line') {
-            bar.text.style.width = parseInt($(progressItem).attr("data-value")) + "%";
+          if (type === "Line") {
+            bar.text.style.width =
+              parseInt($(progressItem).attr("data-value")) + "%";
           }
         }
       } else {
-        console.error(progressItem.className + ": progress bar type is not defined");
+        console.error(
+          progressItem.className + ": progress bar type is not defined"
+        );
       }
     }
   }
@@ -1298,8 +1595,8 @@ $document.ready(function () {
     plugins.stepper.stepper({
       labels: {
         up: "",
-        down: ""
-      }
+        down: "",
+      },
     });
   }
 
